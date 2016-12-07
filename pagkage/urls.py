@@ -18,6 +18,13 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from . import views
+from customers.views import CustomerViewSet, PackageViewSet
+
+from rest_framework import routers
+
+router = routers.SimpleRouter()
+router.register(r'customers', CustomerViewSet)
+router.register(r'packages', PackageViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,7 +32,9 @@ urlpatterns = [
     url(r'^$', views.Home.as_view(), name="home"),
     url(r'^accounts/', include("accounts.urls", namespace="accounts")),
     url(r'^customers/', include('customers.urls', namespace='customers')),
-    url(r'^api/v1/customers/', include('customers.api_urls', namespace='customers_api'))
+    url(r'^api/v1/customers/', include('customers.api_urls', namespace='customers_api')),
+    url(r'^api/v2/', include(router.urls, namespace='api_v2')),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

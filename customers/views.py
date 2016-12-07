@@ -2,10 +2,12 @@ from django.views import generic
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 
-from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework import viewsets
+from rest_framework.decorators import detail_route
 from rest_framework.response import Response
-from rest_framework import status
 
 from . import serializers
 from builtins import (super)
@@ -30,27 +32,50 @@ class CustomerDeleteView(LoginRequiredMixin, generic.DeleteView):
 	model = models.Customer
 	success_url = reverse_lazy('customers:list')
 
+# ==============================================================================
+# 							APIView
+# ==============================================================================
 
-class CustomerListAPIView(APIView):
-
-	def get(self, request, format=None):
-		customers = models.Customer.objects.all()
-		serializer = serializers.CustomerSerializer(customers, many=True)
-		return Response(serializer.data)
-
-class CustomerCreateAPIView(APIView):
-
-	def get(self, request, format=None):
-		customers = models.Customer.objects.all()
-		serializer = serializers.CustomerSerializer(customers, many=True)
-		return Response(serializer.data)
-		
-	def post(self, request, format=None):
-		serializer = serializers.CustomerSerializer(data=request.data)
-		serializer.is_valid(raise_exception=True)
-		serializer.save()
-		return Response(serializer.data, status=status.HTTP_201_CREATED)
+class CustomerListCreateAPIView(generics.ListCreateAPIView):
+	queryset = models.Customer.objects.all()
+	serializer_class = serializers.CustomerSerializer
 	
+class CustomerRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+	queryset = models.Customer.objects.all()
+	serializer_class = serializers.CustomerSerializer
+
+class PackageListCreateAPIView(generics.ListCreateAPIView):
+	queryset = models.Package.objects.all()
+	serializer_class = serializers.PackageSerializer
+
+	def get_queryset(self):
+		return self.queryset.filter(customer_id=self.kwargs.get('customer_pk'))
+
+	def perform_create(self, serializer):
+		customer = get_object_or_404(models.Customer, pk = self.kwargs.get('customer_pk'))
+		serializer.save(customer = customer)
+	
+class PackageRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+	queryset = models.Package.objects.all()
+	serializer_class = serializers.PackageSerializer
+
+	def get_object(self):
+		return get_object_or_404(self.get_queryset(), customer_id = self.kwargs.get('customer_pk'), pk=self.kwargs.get('pk'))
+
+class CustomerViewSet(viewsets.ModelViewSet):
+	queryset = models.Customer.objects.all()
+	serializer_class = serializers.CustomerSerializer
+
+	@detail_route(methods=['get'])
+	def packages(self, request, pk=None):
+		customer = self.get_object()
+		print(customer.first_name, "TEST")
+		serializer = serializers.PackageSerializer(customer.packages.all(), many=True)
+		return Response(serializer.data)
+
+class PackageViewSet(viewsets.ModelViewSet):
+	queryset = models.Package.objects.all()
+	serializer_class = serializers.PackageSerializer
 
 
 
