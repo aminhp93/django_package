@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% load materializecss %}
+
+{% block title_tag %}
+Customer Form
+{% endblock %}
+{% block body_content %}
+<h1>Customer form</h1>
+<form action="" method="post">
+	{% csrf_token %}
+	{{ form|materializecss }}
+	<input type="submit" value="Edit Customer">
+</form>
+{% endblock %}

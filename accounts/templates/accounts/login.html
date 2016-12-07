@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+{% load materializecss %}
+{% block title_tag %}
+	Login
+{% endblock %}
+{% block body_content %}
+<div>
+	<h1>Login</h1>
+	<form action="" method="POST">
+		{% csrf_token %}
+		{{ form|materializecss }}
+		<input type="submit" value="Login">
+	</form>
+</div>
+{% endblock %}

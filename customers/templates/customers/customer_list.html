@@ -1,0 +1,14 @@
+{% extends "layout.html" %} {% load static from staticfiles %} {% block title_tag %} Customer List {% endblock %} {% block body_content %}
+<div>
+    <ul>
+        {% for customer in customers %}
+        <li>
+            {{ customer.first_name }}
+            <span><a href="{% url 'customers:detail' pk=customer.id %}">View Detail</a></span>
+            <span><a href="{% url 'customers:update' pk=customer.id %}">Update Profile</a></span>
+            <span><a href="{% url 'customers:delete' pk=customer.id %}">Delete Profile</a></span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
