@@ -21,9 +21,11 @@ from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^api_auth/', include('rest_framework.urls', namespace = 'rest_framework')),
     url(r'^$', views.Home.as_view(), name="home"),
     url(r'^accounts/', include("accounts.urls", namespace="accounts")),
-    url(r'^customers/', include('customers.urls', namespace='customers'))
+    url(r'^customers/', include('customers.urls', namespace='customers')),
+    url(r'^api/v1/customers/', include('customers.api_urls', namespace='customers_api'))
 ]
 
 urlpatterns += staticfiles_urlpatterns()
