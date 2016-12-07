@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework import mixins
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 
@@ -73,7 +74,11 @@ class CustomerViewSet(viewsets.ModelViewSet):
 		serializer = serializers.PackageSerializer(customer.packages.all(), many=True)
 		return Response(serializer.data)
 
-class PackageViewSet(viewsets.ModelViewSet):
+class PackageViewSet(mixins.CreateModelMixin,
+					mixins.RetrieveModelMixin,
+					mixins.UpdateModelMixin,
+					mixins.DestroyModelMixin,
+					viewsets.GenericViewSet):
 	queryset = models.Package.objects.all()
 	serializer_class = serializers.PackageSerializer
 
