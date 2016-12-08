@@ -31,3 +31,4 @@ class Package(models.Model):
 	depth = models.IntegerField()
 	weight = models.IntegerField()
 	customer = models.ForeignKey(Customer, related_name="packages")
+	location = models.CharField(max_length=255)

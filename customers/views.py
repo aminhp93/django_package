@@ -69,12 +69,21 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 	@detail_route(methods=['get'])
 	def packages(self, request, pk=None):
-		customer = self.get_object()
-		print(customer.first_name, "TEST")
-		serializer = serializers.PackageSerializer(customer.packages.all(), many=True)
+		self.pagination_class.page_size = 1
+		packages = models.Package.objects.filter(customer_id=pk)
+
+		page = self.paginate_queryset(packages)
+		if page is not None:
+			serializer = serializers.PackageSerializer(page, many=True)
+			return self.get_paginated_response(serializer.data)
+
+		# customer = self.get_object()
+		
+		serializer = serializers.PackageSerializer(packages, many=True)
 		return Response(serializer.data)
 
 class PackageViewSet(mixins.CreateModelMixin,
+					mixins.ListModelMixin,
 					mixins.RetrieveModelMixin,
 					mixins.UpdateModelMixin,
 					mixins.DestroyModelMixin,
