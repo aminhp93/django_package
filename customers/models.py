@@ -20,9 +20,6 @@ class Customer(models.Model):
 	def __str__(self):
 		return self.first_name
 
-	def get_absolute_url(self):
-		return reverse("customers:detail", kwargs={"pk": self.pk})
-
 class Package(models.Model):
 
 	name = models.CharField(max_length=255)
@@ -35,4 +32,21 @@ class Package(models.Model):
 	location = models.CharField(max_length=255)
 	created_at = models.DateTimeField(auto_now_add=True)
 	customer = models.ForeignKey(Customer, related_name="packages")
+
+class Driver(models.Model):
+	
+	name = models.CharField(max_length=255)
+	photo_url = models.URLField(unique=True)
+	longitude = models.CharField(max_length=255)
+	latitude = models.IntegerField()
+	email = models.EmailField()
+	address_line_1 = models.CharField(max_length=255)
+	address_line_2 = models.TextField(blank=True, default='')
+	address_city = models.CharField(max_length=255)
+	address_state = models.CharField(max_length=255)
+	address_zipcode = models.IntegerField()
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	def get_absolute_url(self):
+		return reverse("customers:detail", kwargs={"pk": self.pk})
 

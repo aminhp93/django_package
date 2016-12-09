@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+{% load rest_framework %}
+
+{% block title_tag %}
+Driver Detail
+{% endblock %}
+
+{% block body_content %}
+<br>
+<div>
+	<ul style="margin: 10px 160px">
+		<li>Name: {{driver.name}}</li>
+		<li>Photo: {{driver.photo_url}}</li>
+		<li>Email: {{driver.email}}</li>
+		<li>Address: {{driver.address_line_1}}</li>
+		<li>City: {{driver.address_city}}</li>
+		<li>State: {{driver.address_state}}</li>
+		<li>Zipcode: {{driver.address_zipcode}}</li>
+	</ul>
+	
+</div>
+<br>
+{% endblock %}

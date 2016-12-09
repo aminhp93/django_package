@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'accounts',
     'customers',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'orders',
+    'stores'
 ]
 
 MIDDLEWARE_CLASSES = [

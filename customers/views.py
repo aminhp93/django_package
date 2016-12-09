@@ -15,28 +15,36 @@ from . import serializers
 from builtins import (super)
 from . import models
 
-class CustomerCreateView(LoginRequiredMixin, generic.CreateView):
-	fields = ("first_name", "last_name", "business_name", "phone", "email", "address_line_1", "address_city", "address_state", "address_zipcode")
-	model = models.Customer
 
-class CustomerListView(generic.ListView):
-	model = models.Customer
-	context_object_name = 'customers'
+# ==============================================================================
+# 							Driver View
+# ==============================================================================
 
-class CustomerDetailView(generic.DetailView):
-	model = models.Customer
 
-class CustomerUpdateView(LoginRequiredMixin, generic.UpdateView):
-	fields = ("first_name", "last_name", "business_name", "phone", "email", "address_line_1", "address_city", "address_state", "address_zipcode")
-	model = models.Customer
+class DriverCreateView(generic.CreateView):
+	fields = ("name", "photo_url", "longitude", "latitude", "email", "address_line_1", "address_line_2", "address_city", "address_state", "address_zipcode")
+	model = models.Driver
 
-class CustomerDeleteView(LoginRequiredMixin, generic.DeleteView):
-	model = models.Customer
-	success_url = reverse_lazy('customers:list')
+class DriverListView(generic.ListView):
+	model = models.Driver
+	context_object_name = 'drivers'
+
+class DriverDetailView(generic.DetailView):
+	model = models.Driver
+
+class DriverUpdateView(generic.UpdateView):
+	fields = ("name", "photo_url", "longitude", "latitude", "email", "address_line_1", "address_line_2", "address_city", "address_state", "address_zipcode")
+	model = models.Driver
+
+class DriverDeleteView( generic.DeleteView):
+	model = models.Driver
+	success_url = reverse_lazy('drivers:list')
+
 
 # ==============================================================================
 # 							APIView
 # ==============================================================================
+
 
 class CustomerListCreateAPIView(generics.ListCreateAPIView):
 	queryset = models.Customer.objects.all()

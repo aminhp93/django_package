@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% load materializecss %}
+
+{% block title_tag %}
+Driver Delete
+{% endblock %}
+{% block body_content %}
+<h3 style="margin: 10px 160px">Driver form</h3>
+<form action="" method="post" style="margin: 10px 160px">
+	{% csrf_token %}
+	<input type="submit" value="Confirm Delete" class="waves-effect waves-light btn">
+	<a href="{% url 'customers:list' %}">Cancel</a>
+</form>
+</br>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "layout.html" %} {% load static from staticfiles %} {% block title_tag %} Driver List {% endblock %} {% block body_content %}
+<div>
+    <ul style="margin: 20px 160px">
+        {% for driver in drivers %}
+        <li>
+            {{ driver.name }}
+            <span><a href="{% url 'customers:detail' pk=driver.id %}">View Detail</a></span>
+            <span><a href="{% url 'customers:update' pk=driver.id %}">Update Profile</a></span>
+            <span><a href="{% url 'customers:delete' pk=driver.id %}">Delete Profile</a></span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
