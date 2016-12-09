@@ -9,6 +9,7 @@ from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
+from rest_framework import permissions
 
 from . import serializers
 from builtins import (super)
@@ -66,6 +67,8 @@ class PackageRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView)
 class CustomerViewSet(viewsets.ModelViewSet):
 	queryset = models.Customer.objects.all()
 	serializer_class = serializers.CustomerSerializer
+	permission_classes = (permissions.DjangoModelPermissions,)
+
 
 	@detail_route(methods=['get'])
 	def packages(self, request, pk=None):

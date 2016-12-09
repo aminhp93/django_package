@@ -9,11 +9,13 @@ class Customer(models.Model):
 	last_name = models.CharField(max_length=255)
 	business_name = models.CharField(max_length=255)
 	phone = models.IntegerField()
-	email = models.EmailField(max_length=255)
+	email = models.EmailField()
 	address_line_1 = models.CharField(max_length=255)
+	address_line_2 = models.TextField(blank=True, default='')
 	address_city = models.CharField(max_length=255)
 	address_state = models.CharField(max_length=255)
 	address_zipcode = models.IntegerField()
+	created_at = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
 		return self.first_name
@@ -25,10 +27,12 @@ class Package(models.Model):
 
 	name = models.CharField(max_length=255)
 	price = models.IntegerField()
-	SKU = models.CharField(max_length=255)
+	SKU = models.IntegerField()
 	height = models.IntegerField()
 	width = models.IntegerField()
 	depth = models.IntegerField()
 	weight = models.IntegerField()
-	customer = models.ForeignKey(Customer, related_name="packages")
 	location = models.CharField(max_length=255)
+	created_at = models.DateTimeField(auto_now_add=True)
+	customer = models.ForeignKey(Customer, related_name="packages")
+
