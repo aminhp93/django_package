@@ -5,12 +5,14 @@
 	Login
 {% endblock %}
 {% block body_content %}
+<br>
 <div>
-	<h1>Login</h1>
-	<form action="" method="POST">
+	<h3 style="margin: 0 200px">Login</h3>
+	<form action="" method="POST" style="margin: 0 200px">
 		{% csrf_token %}
 		{{ form|materializecss }}
-		<input type="submit" value="Login">
+		<input type="submit" value="Login" class="waves-effect waves-light btn">
 	</form>
 </div>
+<br>
 {% endblock %}
